@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseRun", "MouseRun\MouseRun\MouseRun.csproj", "{5905D6EC-556B-4981-BF57-CDE303E78A64}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "MouseRunContent", "MouseRun\MouseRunContent\MouseRunContent.contentproj", "{06610D44-BA27-47CD-BBB8-E5A7805DDB97}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5905D6EC-556B-4981-BF57-CDE303E78A64}.Debug|x86.ActiveCfg = Debug|x86
+		{5905D6EC-556B-4981-BF57-CDE303E78A64}.Debug|x86.Build.0 = Debug|x86
+		{5905D6EC-556B-4981-BF57-CDE303E78A64}.Release|x86.ActiveCfg = Release|x86
+		{5905D6EC-556B-4981-BF57-CDE303E78A64}.Release|x86.Build.0 = Release|x86
+		{06610D44-BA27-47CD-BBB8-E5A7805DDB97}.Debug|x86.ActiveCfg = Debug|x86
+		{06610D44-BA27-47CD-BBB8-E5A7805DDB97}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
