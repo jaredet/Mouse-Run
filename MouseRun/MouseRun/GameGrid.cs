@@ -126,6 +126,122 @@ namespace MouseRun
 
         public static List<Vector2> aStar(Point start, Point end)
         {
+            HashSet<Point> closedSet = new HashSet<Point>(); // The set of nodes already evaluated.
+            HashSet<Point> openSet   = new HashSet<Point>(); // The set of tentative nodes to be evaluated,
+            openSet.Add(start);                              // initially containing the start node
+            Dictionary<Point,Point> came_from = new Dictionary<Point,Point>();  // The map of navigated nodes.
+            Dictionary<Point,int> g_score = new Dictionary<Point,int>();
+            Dictionary<Point,int> h_score = new Dictionary<Point,int>();
+            Dictionary<Point,int> f_score = new Dictionary<Point,int>();
+ 
+             g_score[start] = 0;
+             h_score[start] = Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
+             f_score[start] = g_score[start] + h_score[start];
+ 
+             while(openSet.Count > 0)
+             {
+                 Point current = openSet.First();
+                 foreach(Point p in openSet)
+                 {
+                     if(f_score[p] < f_score[current])
+                     {
+                         current = p;
+                     }
+                 }
+
+                 if (current == end)
+                 {
+                     List<Vector2> waypoints = new List<Vector2>();
+                     while (current != start)
+                     {
+                         Point from = came_from[current];
+                         if ((from.X > current.X) && (from.Y == current.Y)) // Left
+                         {
+                             waypoints.Insert(0, GameConstants.DirectionLeft);
+                         }
+
+                         else if ((from.X < current.X) && (from.Y == current.Y)) // Right
+                         {
+                             waypoints.Insert(0, GameConstants.DirectionRight);
+                         }
+
+                         else if ((from.X == current.X) && (from.Y > current.Y)) // Up
+                         {
+                             waypoints.Insert(0, GameConstants.DirectionUp);
+                         }
+
+                         else if ((from.X == current.X) && (from.Y < current.Y)) // Down
+                         {
+                             waypoints.Insert(0, GameConstants.DirectionDown);
+                         }
+
+                         else if ((from.X > current.X) && (from.Y > current.Y)) // LeftUp
+                         {
+                             waypoints.Insert(0, GameConstants.DirectionLeftUp);
+                         }
+
+                         else if ((from.X > current.X) && (from.Y < current.Y)) // LeftDown
+                         {
+                             waypoints.Insert(0, GameConstants.DirectionLeftUp);
+                         }
+
+                         else if ((from.X < current.X) && (from.Y > current.Y)) // RightUp
+                         {
+                             waypoints.Insert(0, GameConstants.DirectionLeftUp);
+                         }
+
+                         else if ((from.X < current.X) && (from.Y < current.Y)) // RightDown
+                         {
+                             waypoints.Insert(0, GameConstants.DirectionLeftUp);
+                         }
+
+                         current = from;
+                     }
+
+                     return waypoints;
+                 }
+ 
+                 openSet.Remove(current);
+                 closedSet.Add(current);
+                 foreach (Point neighbor in FreeAdjacent(current))
+                 {
+                     bool tentative_is_better = false;
+
+                     if (closedSet.Contains(neighbor))
+                     {
+                         continue;
+                     }
+
+                     int tentative_g_score = g_score[current] + 
+                         (int)(10 * Math.Sqrt(Math.Abs(current.X - neighbor.X)*Math.Abs(current.X - neighbor.X) + 
+                         Math.Abs(current.Y - neighbor.Y)*Math.Abs(current.Y - neighbor.Y)));
+ 
+                     if(!openSet.Contains(neighbor))
+                     {
+                         openSet.Add(neighbor);
+                         h_score[neighbor] = Math.Abs(neighbor.X - end.X) + Math.Abs(neighbor.Y - end.Y);
+                         tentative_is_better = true;
+                     }
+
+                     else if (tentative_g_score < g_score[neighbor])
+                     {
+                         tentative_is_better = true;
+                     }
+
+                     else
+                     {
+                         tentative_is_better = false;
+                     }
+ 
+                     if (tentative_is_better == true)
+                     {
+                         came_from[neighbor] = current;
+                         g_score[neighbor] = tentative_g_score;
+                         f_score[neighbor] = g_score[neighbor] + h_score[neighbor];
+                     }
+                 }
+             }
+             return new List<Vector2>();
         }
     }
 }
