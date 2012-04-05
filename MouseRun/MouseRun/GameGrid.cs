@@ -124,8 +124,9 @@ namespace MouseRun
             return fa;
         }
 
-        public static List<Vector2> aStar(Point start, Point end)
+        public static List<Point> aStar(Point start, Point end)
         {
+            List<Point> waypoints = new List<Point>();
             HashSet<Point> closedSet = new HashSet<Point>(); // The set of nodes already evaluated.
             HashSet<Point> openSet = new HashSet<Point>(); // The set of tentative nodes to be evaluated,
             openSet.Add(start);                              // initially containing the start node
@@ -151,50 +152,11 @@ namespace MouseRun
 
                 if (current == end)
                 {
-                    List<Vector2> waypoints = new List<Vector2>();
+                    
                     while (current != start)
                     {
                         Point from = came_from[current];
-                        if ((from.X > current.X) && (from.Y == current.Y)) // Left
-                        {
-                            waypoints.Insert(0, GameConstants.DirectionLeft);
-                        }
-
-                        else if ((from.X < current.X) && (from.Y == current.Y)) // Right
-                        {
-                            waypoints.Insert(0, GameConstants.DirectionRight);
-                        }
-
-                        else if ((from.X == current.X) && (from.Y > current.Y)) // Up
-                        {
-                            waypoints.Insert(0, GameConstants.DirectionUp);
-                        }
-
-                        else if ((from.X == current.X) && (from.Y < current.Y)) // Down
-                        {
-                            waypoints.Insert(0, GameConstants.DirectionDown);
-                        }
-
-                        else if ((from.X > current.X) && (from.Y > current.Y)) // LeftUp
-                        {
-                            waypoints.Insert(0, GameConstants.DirectionLeftUp);
-                        }
-
-                        else if ((from.X > current.X) && (from.Y < current.Y)) // LeftDown
-                        {
-                            waypoints.Insert(0, GameConstants.DirectionLeftUp);
-                        }
-
-                        else if ((from.X < current.X) && (from.Y > current.Y)) // RightUp
-                        {
-                            waypoints.Insert(0, GameConstants.DirectionLeftUp);
-                        }
-
-                        else if ((from.X < current.X) && (from.Y < current.Y)) // RightDown
-                        {
-                            waypoints.Insert(0, GameConstants.DirectionLeftUp);
-                        }
-
+                        waypoints.Insert(0, from);
                         current = from;
                     }
 
@@ -241,7 +203,7 @@ namespace MouseRun
                     }
                 }
             }
-            return new List<Vector2>();
+            return waypoints;
         }
     }
 }

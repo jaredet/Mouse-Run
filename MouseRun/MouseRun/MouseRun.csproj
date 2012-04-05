@@ -109,7 +109,7 @@
   <ItemGroup>
     <Compile Include="GameConstants.cs" />
     <Compile Include="GameGrid.cs" />
-    <Compile Include="GameObject.cs" />
+    <Compile Include="GameChar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="MouseRun.cs" />
