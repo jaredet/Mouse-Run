@@ -1,0 +1,8 @@
+C:\Users\cbdarr1s\Desktop\Mouse-Run\MouseRun\MouseRun\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\cbdarr1s\Desktop\Mouse-Run\MouseRun\MouseRun\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\cbdarr1s\Desktop\Mouse-Run\MouseRun\MouseRun\bin\x86\Debug\Content\Sprites\gridBlock.xnb
+C:\Users\cbdarr1s\Desktop\Mouse-Run\MouseRun\MouseRun\bin\x86\Debug\Content\Sprites\gridFree.xnb
+C:\Users\cbdarr1s\Desktop\Mouse-Run\MouseRun\MouseRun\bin\x86\Debug\MouseRun.exe
+C:\Users\cbdarr1s\Desktop\Mouse-Run\MouseRun\MouseRun\bin\x86\Debug\MouseRun.pdb
+C:\Users\cbdarr1s\Desktop\Mouse-Run\MouseRun\MouseRun\obj\x86\Debug\MouseRun.exe
+C:\Users\cbdarr1s\Desktop\Mouse-Run\MouseRun\MouseRun\obj\x86\Debug\MouseRun.pdb

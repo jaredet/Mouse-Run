@@ -1,0 +1,2 @@
+Content\Sprites\gridBlock.xnb
+Content\Sprites\gridFree.xnb
