@@ -18,9 +18,12 @@ namespace MouseRun
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D gridFree;
-        Texture2D gridBlock;
-        Rectangle viewportRect;
+        Texture2D gridFree, gridBlock;
+
+        Texture2D titleScreen, winScreen, loseScreen;
+        Rectangle viewportRect, titleViewportRect, winViewportRect, loseViewportRect;
+        enum GameState { TitleScreen, Playing, PlayerWin, PlayerLose }
+        GameState gameState;
 
         public MouseRun()
         {
@@ -59,6 +62,8 @@ namespace MouseRun
             viewportRect = new Rectangle(0, 0,
                 GameConstants.WinResX,
                 GameConstants.WinResY);
+
+            gameState = GameState.TitleScreen;
         }
 
         /// <summary>
@@ -83,6 +88,27 @@ namespace MouseRun
 
             // TODO: Add your update logic here
 
+            switch (gameState) 
+            { 
+                case GameState.TitleScreen: 
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space)) 
+                    { 
+                        gameState = GameState.Playing; 
+                    } 
+                    break; 
+                case GameState.Playing: 
+                    //Gametime logic 
+                    break; 
+                case GameState.PlayerWin: 
+                case GameState.PlayerLose: 
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space)) 
+                    { 
+                        gameState = GameState.TitleScreen; 
+                    } 
+                    break; 
+            }
+
+
             base.Update(gameTime);
         }
 
@@ -95,8 +121,23 @@ namespace MouseRun
             GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
+
             spriteBatch.Begin();
-            DrawGrid();
+            switch (gameState)
+            {
+                case GameState.TitleScreen:
+                    //spriteBatch.Draw(titleScreen, titleViewportRect, Color.Black);
+                    break;
+                case GameState.Playing:
+                    DrawGrid();
+                    break;
+                case GameState.PlayerWin:
+                    spriteBatch.Draw(winScreen, winViewportRect, Color.Black);
+                    break;
+                case GameState.PlayerLose:
+                    spriteBatch.Draw(loseScreen, loseViewportRect, Color.Black);
+                    break;
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
