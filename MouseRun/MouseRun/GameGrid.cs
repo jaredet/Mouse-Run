@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace MouseRun
 {
-    static class GameGrid
+    public static class GameGrid
     {
         static private int[] barriers;
 
@@ -136,7 +136,7 @@ namespace MouseRun
             Dictionary<Point, int> f_score = new Dictionary<Point, int>();
 
             g_score[start] = 0;
-            h_score[start] = Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
+            h_score[start] = 10 * (Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y));
             f_score[start] = g_score[start] + h_score[start];
 
             while (openSet.Count > 0)
@@ -181,7 +181,7 @@ namespace MouseRun
                     if (!openSet.Contains(neighbor))
                     {
                         openSet.Add(neighbor);
-                        h_score[neighbor] = Math.Abs(neighbor.X - end.X) + Math.Abs(neighbor.Y - end.Y);
+                        h_score[neighbor] = 10 * (Math.Abs(neighbor.X - end.X) + Math.Abs(neighbor.Y - end.Y));
                         tentative_is_better = true;
                     }
 
