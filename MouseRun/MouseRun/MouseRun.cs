@@ -18,11 +18,12 @@ namespace MouseRun
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D titleScreen, winScreen, loseScreen;
-        Rectangle titleViewportRect, winViewportRect, loseViewportRect;
+        Texture2D gridFree, gridBlock;
 
-        enum GameState {TitleScreen, Playing, PlayerWin, PlayerLose}
-        GameState gameState = GameState.TitleScreen;
+        Texture2D titleScreen, winScreen, loseScreen;
+        Rectangle viewportRect, titleViewportRect, winViewportRect, loseViewportRect;
+        enum GameState { TitleScreen, Playing, PlayerWin, PlayerLose }
+        GameState gameState;
 
         public MouseRun()
         {
@@ -39,7 +40,9 @@ namespace MouseRun
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            this.graphics.PreferredBackBufferWidth  = GameConstants.WinResX;
+            this.graphics.PreferredBackBufferHeight = GameConstants.WinResY;
+            this.graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -52,7 +55,15 @@ namespace MouseRun
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            gridBlock = Content.Load<Texture2D>("Sprites/gridBlock");
+            gridFree  = Content.Load<Texture2D>("Sprites/gridFree");
             // TODO: use this.Content to load your game content here
+
+            viewportRect = new Rectangle(0, 0,
+                GameConstants.WinResX,
+                GameConstants.WinResY);
+
+            gameState = GameState.TitleScreen;
         }
 
         /// <summary>
@@ -103,6 +114,27 @@ namespace MouseRun
                     break;
             }
 
+            switch (gameState) 
+            { 
+                case GameState.TitleScreen: 
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space)) 
+                    { 
+                        gameState = GameState.Playing; 
+                    } 
+                    break; 
+                case GameState.Playing: 
+                    //Gametime logic 
+                    break; 
+                case GameState.PlayerWin: 
+                case GameState.PlayerLose: 
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space)) 
+                    { 
+                        gameState = GameState.TitleScreen; 
+                    } 
+                    break; 
+            }
+
+
             base.Update(gameTime);
         }
 
@@ -112,7 +144,7 @@ namespace MouseRun
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             if (gameState == GameState.TitleScreen)
@@ -140,7 +172,39 @@ namespace MouseRun
                 spriteBatch.End();
             }
 
+            spriteBatch.Begin();
+            switch (gameState)
+            {
+                case GameState.TitleScreen:
+                    //spriteBatch.Draw(titleScreen, titleViewportRect, Color.Black);
+                    break;
+                case GameState.Playing:
+                    DrawGrid();
+                    break;
+                case GameState.PlayerWin:
+                    spriteBatch.Draw(winScreen, winViewportRect, Color.Black);
+                    break;
+                case GameState.PlayerLose:
+                    spriteBatch.Draw(loseScreen, loseViewportRect, Color.Black);
+                    break;
+            }
+            spriteBatch.End();
+
             base.Draw(gameTime);
+        }
+
+        private void DrawGrid()
+        {
+            for (int x = 0; x < 22; x++)
+            {
+                for (int y = 0; y < 30; y++)
+                {
+                    spriteBatch.Draw(
+                        (GameGrid.Free(new Point(x, y)) ? gridFree : gridBlock),
+                        new Vector2(x * 20, y * 20),
+                        Color.White);
+                }
+            }
         }
     }
 }
