@@ -20,9 +20,9 @@ namespace MouseRun
         SpriteBatch spriteBatch;
         Texture2D gridFree, gridBlock;
 
-        Texture2D titleScreen, winScreen, loseScreen;
-        Rectangle viewportRect, titleViewportRect, winViewportRect, loseViewportRect;
-        enum GameState { TitleScreen, Playing, PlayerWin, PlayerLose }
+        Texture2D logoScreen, menuScreen, contribScreen, titleScreen, winScreen, loseScreen;
+        Rectangle viewportRect, screenViewportRect;
+        enum GameState { TitleScreen, Playing, PlayerWin, PlayerLose, LogoScreen, MenuScreen, ContribScreen }
         GameState gameState;
 
         public MouseRun()
@@ -57,13 +57,22 @@ namespace MouseRun
 
             gridBlock = Content.Load<Texture2D>("Sprites/gridBlock");
             gridFree  = Content.Load<Texture2D>("Sprites/gridFree");
+
+            logoScreen = Content.Load<Texture2D>("Screens/LogoScreen2D");
+            menuScreen = Content.Load<Texture2D>("Screens/MenuScreen2D");
+            contribScreen = Content.Load<Texture2D>("Screens/Zoidberg");
+            titleScreen = Content.Load<Texture2D>("Screens/titlescreen");
+            winScreen = Content.Load<Texture2D>("Screens/playerwins");
+            loseScreen = Content.Load<Texture2D>("Screens/playerloses");
             // TODO: use this.Content to load your game content here
 
             viewportRect = new Rectangle(0, 0,
                 GameConstants.WinResX,
                 GameConstants.WinResY);
 
-            gameState = GameState.TitleScreen;
+            screenViewportRect = new Rectangle(0, 150, 440, 299);
+
+            gameState = GameState.LogoScreen;
         }
 
         /// <summary>
@@ -89,8 +98,20 @@ namespace MouseRun
             // TODO: Add your update logic here
             switch (gameState)
             {
+                case GameState.LogoScreen:
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    {
+                        gameState = GameState.TitleScreen;
+                    }
+                    break;
                 case GameState.TitleScreen:
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                    {
+                        gameState = GameState.MenuScreen;
+                    }
+                    break;
+                case GameState.MenuScreen:
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
                         gameState = GameState.Playing;
                     }
@@ -103,37 +124,22 @@ namespace MouseRun
                 case GameState.PlayerWin:
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
-                        gameState = GameState.TitleScreen;
+                        gameState = GameState.ContribScreen;
                     }
                     break;
                 case GameState.PlayerLose:
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
+                        gameState = GameState.ContribScreen;
+                    }
+                    break;
+                case GameState.ContribScreen:
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    {
                         gameState = GameState.TitleScreen;
                     }
                     break;
             }
-
-            switch (gameState) 
-            { 
-                case GameState.TitleScreen: 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Space)) 
-                    { 
-                        gameState = GameState.Playing; 
-                    } 
-                    break; 
-                case GameState.Playing: 
-                    //Gametime logic 
-                    break; 
-                case GameState.PlayerWin: 
-                case GameState.PlayerLose: 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Space)) 
-                    { 
-                        gameState = GameState.TitleScreen; 
-                    } 
-                    break; 
-            }
-
 
             base.Update(gameTime);
         }
@@ -144,51 +150,48 @@ namespace MouseRun
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.LightGray);
 
             // TODO: Add your drawing code here
-            if (gameState == GameState.TitleScreen)
-            {
-                spriteBatch.Begin();
-                spriteBatch.Draw(titleScreen, titleViewportRect, Color.Black);
-                spriteBatch.End();
-            }
-            if (gameState == GameState.Playing)
-            {
-                spriteBatch.Begin();
-                //Gametime drawing
-                spriteBatch.End();
-            }
-            if (gameState == GameState.PlayerWin)
-            {
-                spriteBatch.Begin();
-                spriteBatch.Draw(winScreen, winViewportRect, Color.Black);
-                spriteBatch.End();
-            }
-            if (gameState == GameState.PlayerLose)
-            {
-                spriteBatch.Begin();
-                spriteBatch.Draw(loseScreen, loseViewportRect, Color.Black);
-                spriteBatch.End();
-            }
-
-            spriteBatch.Begin();
+            
             switch (gameState)
             {
+                case GameState.LogoScreen:
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(logoScreen, screenViewportRect, Color.White);
+                    spriteBatch.End();
+                    break;
                 case GameState.TitleScreen:
-                    //spriteBatch.Draw(titleScreen, titleViewportRect, Color.Black);
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(titleScreen, screenViewportRect, Color.White);
+                    spriteBatch.End();
+                    break;
+                case GameState.MenuScreen:
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(menuScreen, screenViewportRect, Color.White);
+                    spriteBatch.End();
                     break;
                 case GameState.Playing:
+                    spriteBatch.Begin();
                     DrawGrid();
+                    spriteBatch.End();
                     break;
                 case GameState.PlayerWin:
-                    spriteBatch.Draw(winScreen, winViewportRect, Color.Black);
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(winScreen, screenViewportRect, Color.White);
+                    spriteBatch.End();
                     break;
                 case GameState.PlayerLose:
-                    spriteBatch.Draw(loseScreen, loseViewportRect, Color.Black);
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(loseScreen, screenViewportRect, Color.White);
+                    spriteBatch.End();
+                    break;
+                case GameState.ContribScreen:
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(contribScreen, screenViewportRect, Color.White);
+                    spriteBatch.End();
                     break;
             }
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }
