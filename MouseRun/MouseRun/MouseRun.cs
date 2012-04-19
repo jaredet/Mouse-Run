@@ -25,6 +25,10 @@ namespace MouseRun
         enum GameState { TitleScreen, Playing, PlayerWin, PlayerLose, LogoScreen, MenuScreen, ContribScreen }
         GameState gameState;
 
+        SpriteFont scoreFont;
+        Vector2 scoreDrawPoint = new Vector2(110, 0);
+        int score = 7;
+
         public MouseRun()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -64,6 +68,8 @@ namespace MouseRun
             titleScreen = Content.Load<Texture2D>("Screens/titlescreen");
             winScreen = Content.Load<Texture2D>("Screens/playerwins");
             loseScreen = Content.Load<Texture2D>("Screens/playerloses");
+
+            scoreFont = Content.Load<SpriteFont>("Fonts/GameFont");
             // TODO: use this.Content to load your game content here
 
             viewportRect = new Rectangle(0, 0,
@@ -153,46 +159,34 @@ namespace MouseRun
             GraphicsDevice.Clear(Color.LightGray);
 
             // TODO: Add your drawing code here
-            
+            spriteBatch.Begin();
             switch (gameState)
             {
                 case GameState.LogoScreen:
-                    spriteBatch.Begin();
                     spriteBatch.Draw(logoScreen, screenViewportRect, Color.White);
-                    spriteBatch.End();
                     break;
                 case GameState.TitleScreen:
-                    spriteBatch.Begin();
                     spriteBatch.Draw(titleScreen, screenViewportRect, Color.White);
-                    spriteBatch.End();
                     break;
                 case GameState.MenuScreen:
-                    spriteBatch.Begin();
                     spriteBatch.Draw(menuScreen, screenViewportRect, Color.White);
-                    spriteBatch.End();
                     break;
                 case GameState.Playing:
-                    spriteBatch.Begin();
                     DrawGrid();
-                    spriteBatch.End();
+                    spriteBatch.DrawString(scoreFont, score.ToString() + " pieces of cheese left",
+                        new Vector2(scoreDrawPoint.X,scoreDrawPoint.Y), Color.Yellow);
                     break;
                 case GameState.PlayerWin:
-                    spriteBatch.Begin();
                     spriteBatch.Draw(winScreen, screenViewportRect, Color.White);
-                    spriteBatch.End();
                     break;
                 case GameState.PlayerLose:
-                    spriteBatch.Begin();
                     spriteBatch.Draw(loseScreen, screenViewportRect, Color.White);
-                    spriteBatch.End();
                     break;
                 case GameState.ContribScreen:
-                    spriteBatch.Begin();
                     spriteBatch.Draw(contribScreen, screenViewportRect, Color.White);
-                    spriteBatch.End();
                     break;
             }
-
+            spriteBatch.End();
             base.Draw(gameTime);
         }
 

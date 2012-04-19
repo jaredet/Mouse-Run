@@ -1,8 +1,9 @@
 Content\Sprites\gridBlock.xnb
 Content\Sprites\gridFree.xnb
+Content\Screens\LogoScreen2D.xnb
 Content\Screens\MenuScreen2D.xnb
 Content\Screens\playerloses.xnb
 Content\Screens\playerwins.xnb
 Content\Screens\titlescreen.xnb
 Content\Screens\Zoidberg.xnb
-Content\Screens\LogoScreen2D.xnb
+Content\Fonts\GameFont.xnb
